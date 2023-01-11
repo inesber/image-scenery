@@ -1,42 +1,51 @@
 import random
 
+from termcolor import colored
+from noise import pnoise2
+
 
 def create(cols=10, rows=10):
-    data = ["a", "b", "c", "d", "e", "f"]
+    data = ["!", ".", "#", "&", "-", "$", "-", "&", "#", ".", "!"]
+    seed = random.randint(0, 100)
+    field = ""
 
     print(f"Generate a landscape which is {cols} by {rows}")
 
     for row in range(rows):
-        row_string = ""
-
         for col in range(cols):
-            r = random.choice(data)
-            row_string += r
+            n = pnoise2(row / rows, col / cols, base=seed)
+            n *= 100
+            n = round(n)
+            n = n % len(data)
 
-        print(row_string)
+            field += data[n]
+        field += "\n"
 
     print("Finished generating landscape")
+    return field
 
 
 def check_number(question):
     tries = 0
 
     while tries < 3:
-        answer = input(question + "\n")
+        answer = input(colored(question + "\n", "blue"))
 
         if answer == "quit":
             quit()
         elif answer.isnumeric():
             return int(answer)
         else:
-            print("Make sure to type a number")
+            print(colored("Make sure to type a number", "yellow"))
             tries += 1
 
-    print("Please come back when you have a number to type...")
+    print(colored("Please come back when you have a number to type...", "red"))
     quit()
 
 
 cols = check_number("How many columns?")
 rows = check_number("How many rows?")
 
-create(cols, rows)
+output = create(cols, rows)
+
+print(output)
