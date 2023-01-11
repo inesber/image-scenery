@@ -4,8 +4,8 @@ from termcolor import colored
 from noise import pnoise2
 
 
-def create(cols=10, rows=10):
-    data = ["!", ".", "#", "&", "-", "$", "-", "&", "#", ".", "!"]
+def create(cols=10, rows=10, noise_level=10):
+    data = ["✨", "🌙", "🌊", "🌿", "🌷", "🍁", "🌷", "🌿", "🌊", "🌙", "✨"]
     seed = random.randint(0, 100)
     field = ""
 
@@ -13,8 +13,8 @@ def create(cols=10, rows=10):
 
     for row in range(rows):
         for col in range(cols):
-            n = pnoise2(row / rows, col / cols, base=seed)
-            n *= 100
+            n = pnoise2(row / rows, col / cols, base=seed, octaves=5)
+            n *= noise_level
             n = round(n)
             n = n % len(data)
 
@@ -43,9 +43,10 @@ def check_number(question):
     quit()
 
 
-cols = check_number("How many columns?")
-rows = check_number("How many rows?")
+if __name__ == "__main__":
+    cols = check_number("How many columns?")
+    rows = check_number("How many rows?")
 
-output = create(cols, rows)
+    output = create(cols, rows)
 
-print(output)
+    print(output)
