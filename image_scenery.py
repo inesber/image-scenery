@@ -5,7 +5,7 @@ from noise import pnoise2
 
 
 def create(cols=10, rows=10, noise_level=10):
-    data = ["✨", "🌙", "🌊", "🌿", "🌷", "🍁", "🌷", "🌿", "🌊", "🌙", "✨"]
+    data = ["!", "&", "-", "#", ".", "*", ".", "#", "-", "&", "!"]
     seed = random.randint(0, 100)
     field = ""
 
@@ -13,7 +13,7 @@ def create(cols=10, rows=10, noise_level=10):
 
     for row in range(rows):
         for col in range(cols):
-            n = pnoise2(row / rows, col / cols, base=seed, octaves=5)
+            n = pnoise2(row / rows, col / cols, base=seed)
             n *= noise_level
             n = round(n)
             n = n % len(data)
